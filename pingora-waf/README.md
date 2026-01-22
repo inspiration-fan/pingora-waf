@@ -44,5 +44,3 @@ curl -vk https://example.com/   --resolve example.com:443:127.0.0.1   --cert cer
 
 
 wrk -t4 -c200 -d20s -H "Host: www.b.test" http://127.0.0.1:80/
-
-python3 -m http.server 18082

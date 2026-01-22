@@ -11,13 +11,9 @@ cargo run -p pingora-waf -- --config ./config.yaml
 ```
 
 
-```bash
-cargo run -p pingora-waf -- --config ./aegis/config.yaml
-```
 
-
-## Quick HTTPS test
+## Quick HTTP/S test
 
 ```bash
-curl -vk https://example.com:8443 --resolve example.com:8443:127.0.0.1
+curl -vk https://www.example.com:8443 --resolve www.example.com:8443:127.0.0.1
 ```
