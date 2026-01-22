@@ -18,6 +18,7 @@ cargo run --release -- --config config.yaml
 ```
 
 3) mTLS + SNI 测试：
+证书自己本地生成放入对应目录
 ```bash
 curl -vk https://example.com/   --resolve example.com:443:127.0.0.1   --cert certs/client/client.crt --key certs/client/client.key   --cacert certs/ca/ca.crt
 ```
@@ -32,14 +33,13 @@ curl -vk https://example.com/   --resolve example.com:443:127.0.0.1   --cert cer
 ## Observability
 
 - Prometheus: GET http://<host>:9100/metrics
-- OpenTelemetry: set env `OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317`
 
 
 
 ## HTTP 支持
-默认同时监听：
-- HTTP  : 0.0.0.0:80
-- HTTPS : 0.0.0.0:443（mTLS + SNI）
+默认同时监听（参考config中的配置）：
+- HTTP  : 0.0.0.0:xx
+- HTTPS : 0.0.0.0:xx（mTLS + SNI）
 可在 config.yaml 里用 http_listen / listen 修改。
 
 
