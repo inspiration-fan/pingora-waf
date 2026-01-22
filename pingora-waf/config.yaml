@@ -1,0 +1,21 @@
+http_listen: "0.0.0.0:8080"
+https_listen: "0.0.0.0:8443"
+metrics_listen: "0.0.0.0:9100"
+
+# JSONL logs for Vector tail
+log_dir: "logs"
+
+upstream_config_path: "upstream.yaml"
+upstream_hot_reload_secs: 3
+
+rules_path: "rules.yaml"
+
+tls:
+  certs_dir: "certs"
+  mtls: false
+  hot_reload_secs: 3
+
+policy:
+  domain_map_path: "domain_map.yaml"
+  policies_dir: "policies"
+  hot_reload_secs: 3

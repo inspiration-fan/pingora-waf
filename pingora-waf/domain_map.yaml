@@ -1,0 +1,12 @@
+version: 1
+default_policy: policy-www-default
+
+domains:
+  "*.img.a.test":
+    policy: policy-img-a
+
+  api.a.test:
+    policy: policy-api-a
+
+  www.b.test:
+    policy: policy-www-default

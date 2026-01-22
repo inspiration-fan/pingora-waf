@@ -1,0 +1,37 @@
+version: 1
+id: policy-img-a
+
+protections:
+  precise:
+    # 非 Prometheus UA 访问 /img → 只 log
+    - id: precise-img-log
+      match:
+        and:
+          - path_prefix: "/img"
+          - not:
+              header_regex:
+                name: "user-agent"
+                pattern: "Prometheus"
+      action:
+        log:
+          reason: "img access logged"
+
+  base:
+    # /img 资源按 IP 限速
+    - id: base-cc-img
+      match:
+        path_prefix: "/img"
+      action:
+        cc:
+          key_parts:
+            - client_ip
+          window_secs: 10
+          max_requests: 5
+          block_secs: 20
+          on_limit:
+            block:
+              status: 429
+              reason: "img cc limited"
+
+waf:
+  enabled: false

@@ -1,0 +1,48 @@
+version: 1
+id: policy-api-a
+
+protections:
+  # =========================
+  # 精准防护（立即动作）
+  # =========================
+  precise:
+    # POST /login 且 UA 不是 Prometheus → challenge
+    - id: precise-login-challenge
+      match:
+        and:
+          - path_prefix: "/login"
+          - method_in: ["POST"]
+          - not:
+              header_regex:
+                name: "user-agent"
+                pattern: "Prometheus|HealthCheck"
+      action:
+        challenge:
+          status: 403
+          reason: "login needs challenge"
+
+  # =========================
+  # 基础防护（CC 限速）
+  # =========================
+  base:
+    # /api 按 client_ip + user_agent + cookie:session 限速
+    - id: base-cc-api
+      match:
+        path_prefix: "/api"
+      action:
+        cc:
+          key_parts:
+            - client_ip
+            - user_agent
+            - cookie:session
+          window_secs: 10
+          max_requests: 3
+          block_secs: 30
+          on_limit:
+            block:
+              status: 429
+              reason: "api cc limited"
+
+waf:
+  enabled: true
+  ruleset: default

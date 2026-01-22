@@ -1,0 +1,12 @@
+version: 1
+id: policy-www-default
+
+protections:
+  precise: []
+  base: []
+
+#waf:
+#  enabled: false
+waf:
+  enabled: true
+  ruleset: default

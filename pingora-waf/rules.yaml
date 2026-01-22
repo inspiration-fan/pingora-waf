@@ -1,0 +1,21 @@
+version: "v1"
+rules:
+  - id: "1001"
+    description: "Block path traversal"
+    when:
+      uri_ac: ["../", "%2e%2e%2f", "%2e%2e/"]
+    action: block
+
+  - id: "1002"
+    description: "Block basic SQLi in body"
+    when:
+      methods: ["POST", "PUT"]
+      body_ac: ["union select", "sleep(", " or 1=1", "benchmark("]
+    action: block
+
+  - id: block_admin
+    description: "Block access to /admin"
+    when:
+      path_prefix: ["/admin"]
+    action: block
+

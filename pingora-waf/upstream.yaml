@@ -1,0 +1,29 @@
+version: 1
+
+resolver:
+  mode: static
+  # 这里模拟 “请求域名 -> DNS CNAME target”
+  host_to_cname:
+    "www.a.test": "tenantA.waf.example.com"
+    "www.b.test": "tenantB.waf.example.com"
+
+#resolver:
+#  mode: dns
+#  timeout_ms: 800
+#  cache_ttl_secs: 30
+#  cname_chain_limit: 5
+
+cname_routing:
+  tenant_from_cname_regex: "^([A-Za-z0-9-]+)\\.waf\\.example\\.com$"
+
+tenants:
+  tenantA:
+    upstreams:
+      - "http://127.0.0.1:18081"
+  tenantB:
+    upstreams:
+      - "http://127.0.0.1:18082"
+
+default:
+  upstreams:
+    - "http://127.0.0.1:18082"
